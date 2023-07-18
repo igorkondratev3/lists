@@ -1,0 +1,48 @@
+@import './styles/reset.css';
+@import './styles/font.css';
+
+:root {
+  --base: 100px;
+}
+
+/*@media (min-width: 2100px) {
+  :root {
+    --base: 5.2vmax;
+  }
+}
+
+@media (min-height: 2100px) {
+  :root {
+    --base: 5.2vmax;
+  }
+}*/
+
+body {
+  min-height: 100vh;
+  background-color: rgb(232, 238, 233);
+}
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: calc(var(--base) * 0.2);
+  height: calc(var(--base) * 0.2);
+  outline: calc(var(--base) * 0.01) solid transparent;
+  outline-offset: calc(var(--base) * 0.02);
+  border: calc(var(--base) * 0.01) solid rgb(66, 63, 63);
+  border-radius: calc(var(--base) * 0.04);
+  background: rgb(232, 238, 233);
+  transition: background 0.3s linear, border 0.3s linear;
+}
+input[type='checkbox']:checked {
+  background: rgb(66, 63, 63);
+}
+
+input[type='checkbox']:focus-visible {
+  outline: calc(var(--base) * 0.02) solid rgb(66, 63, 63);
+}
+
+input[type='checkbox']:checked:focus-visible {
+  outline: calc(var(--base) * 0.02) solid white;
+}
