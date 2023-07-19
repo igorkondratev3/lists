@@ -108,4 +108,12 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
   display: flex;
   align-items: center;
 }
+
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/*перенести*/
 </style>
