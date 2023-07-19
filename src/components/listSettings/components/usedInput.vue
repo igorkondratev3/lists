@@ -12,7 +12,7 @@ defineEmits(['changeUsed']);
       class="item-check"
       type="checkbox"
       :checked="used"
-      @change="$emit('changeUsed', !used)"
+      @change="$emit('changeUsed', itemNumber - 1, 'used', !used)"
     />
     Item {{ itemNumber }}
   </label>

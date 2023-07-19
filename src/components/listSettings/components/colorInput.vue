@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
-  color: String
+  color: String,
+  itemNumber: Number
 });
 defineEmits(['changeColor']);
 </script>
@@ -10,7 +11,9 @@ defineEmits(['changeColor']);
     type="color"
     class="color-input"
     :value="color"
-    @input="$emit('changeColor', $event.currentTarget.value)"
+    @input="
+      $emit('changeColor', itemNumber - 1, 'color', $event.currentTarget.value)
+    "
   />
 </template>
 

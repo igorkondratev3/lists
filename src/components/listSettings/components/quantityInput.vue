@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
-  quantity: Number
+  quantity: Number,
+  itemNumber: Number
 });
 defineEmits(['changeQuantity']);
 </script>
@@ -12,7 +13,14 @@ defineEmits(['changeQuantity']);
     min="1"
     max="99"
     :value="quantity"
-    @input="$emit('changeQuantity', Number($event.currentTarget.value))"
+    @input="
+      $emit(
+        'changeQuantity',
+        itemNumber - 1,
+        'quantity',
+        Number($event.currentTarget.value)
+      )
+    "
   />
 </template>
 

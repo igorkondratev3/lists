@@ -99,14 +99,16 @@ const changeItemsUsed = (listNumber, value) => {
   <div class="lists-page">
     <main class="lists-page__main">
       <div class="page-block">
-        <ListSettings
-          v-for="(list, keyList) of listSettings"
-          :key="keyList + 'listParams'"
-          :itemsSettings="list"
-          :listNumber="keyList + 1"
-          @changeItemParameter="changeItemParameter"
-          @changeItemsUsed="changeItemsUsed"
-        />
+        <ul class="list-settings-wrapper">
+          <ListSettings
+            v-for="(list, keyList) of listSettings"
+            :key="keyList + 'listParams'"
+            :itemSettings="list"
+            :listNumber="keyList + 1"
+            @changeItemParameter="changeItemParameter"
+            @changeItemsUsed="changeItemsUsed"
+          />
+        </ul>
       </div>
       <div class="page-block">
         <div
@@ -168,6 +170,9 @@ const changeItemsUsed = (listNumber, value) => {
 </template>
 
 <style>
+.list-settings-wrapper {
+  list-style-type: none;
+}
 .lists-page {
   display: flex;
   flex-direction: column;
