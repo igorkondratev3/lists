@@ -1,23 +1,77 @@
 <script setup>
 import { ref, computed } from 'vue';
+import ListSettings from '@/components/listSettings/listSettings.vue';
+const getRandomIntInclusive = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const colorCollection = [
+  '#ca5d5d',
+  '#f0ade2',
+  '#7320ee',
+  '#a8c2ff',
+  '#5ec9f7',
+  '#04fba9',
+  '#47eaf5',
+  '#c7fb93',
+  '#fde90d',
+  '#ffcf99'
+];
 
 const numberOfLists = 5;
-const numberOfItems = 4;
-const listVisibility = ref(new Set(['List1']));
+const minNumberOfItems = 4;
+const maxNumberOfItems = 10;
+const minNumberOfSquares = 0;
+const maxNumberOfSquares = 99;
 const listSettings = [];
-const listChecked = [];
+const commonArraySquares = [];
+const isRandom = [];
+const randomContent = [];
 for (let i = 0; i < numberOfLists; i++) {
   listSettings[i] = [];
-  for (let j = 0; j < numberOfItems; j++) {
+  for (
+    let j = 0;
+    j < getRandomIntInclusive(minNumberOfItems, maxNumberOfItems);
+    j++
+  ) {
     listSettings[i][j] = {
-      used: ref(true),
-      quantity: ref(2),
-      color: ref('#ca5d5d')
+      used: ref(i === 0 && j < 3 ? true : false),
+      quantity: ref(
+        getRandomIntInclusive(minNumberOfSquares, maxNumberOfSquares)
+      ),
+      color: ref(
+        colorCollection[getRandomIntInclusive(0, colorCollection.length - 1)]
+      )
     };
   }
-  listChecked[i] = computed(() =>
-    listSettings[i].some((item) => item.used.value)
+  commonArraySquares[i] = computed(() =>
+    listSettings[i].map((item) => ({
+      used: item.used.value,
+      color: item.color.value,
+      quantity: item.quantity.value
+    }))
   );
+  isRandom[i] = ref(false);
+  randomContent[i] = computed(() => {
+    const result = [];
+    const correctData = structuredClone(
+      commonArraySquares[i].value.filter(
+        (item) => item.quantity > 0 && item.used
+      )
+    );
+    const sum = correctData.reduce((acc, item) => acc + item.quantity, 0);
+    for (let i = 1; i <= sum; i++) {
+      const numItem = getRandomIntInclusive(0, correctData.length - 1);
+      result.push(correctData[numItem].color);
+      correctData[numItem].quantity--;
+      if (correctData[numItem].quantity === 0) {
+        correctData.splice(numItem, 1);
+      }
+    }
+    return result;
+  });
 }
 
 const deleteSquare = (keyList, keyItem, event) => {
@@ -26,22 +80,17 @@ const deleteSquare = (keyList, keyItem, event) => {
   }
 };
 
-const dfg = (list, event) => {
-  if (list.every((item) => item.used.value)) {
-    for (const item of list) {
-      item.used.value = false;
-    }
-    return;
-  }
-  if (list.every((item) => !item.used.value)) {
-    for (const item of list) {
-      item.used.value = true;
-    }
-    return;
-  }
-  event.preventDefault();
-  for (const item of list) {
-    item.used.value = true;
+const changeRandom = (keyList) => {
+  isRandom[keyList].value = !isRandom[keyList].value;
+};
+
+const changeItemParameter = (listNumber, itemNumber, parameter, value) => {
+  listSettings[listNumber][itemNumber][parameter].value = value;
+};
+
+const changeItemsUsed = (listNumber, value) => {
+  for (const itemSettings of listSettings[listNumber]) {
+    itemSettings.used.value = value;
   }
 };
 </script>
@@ -50,73 +99,14 @@ const dfg = (list, event) => {
   <div class="lists-page">
     <main class="lists-page__main">
       <div class="page-block">
-        <ul
-          class="list-params"
+        <ListSettings
           v-for="(list, keyList) of listSettings"
           :key="keyList + 'listParams'"
-        >
-          <li class="list-params__value">
-            <div class="list-block">
-              <div
-                class="arrow"
-                :class="{
-                  arrow_down: listVisibility.has(`List${keyList + 1}`)
-                }"
-                @click="
-                  listVisibility.has(`List${keyList + 1}`)
-                    ? listVisibility.delete(`List${keyList + 1}`)
-                    : listVisibility.add(`List${keyList + 1}`)
-                "
-              ></div>
-              <label>
-                <input
-                  class="list-check"
-                  :class="{
-                    'list-check_some':
-                      list.some((item) => item.used.value) &&
-                      list.some((item) => !item.used.value)
-                  }"
-                  type="checkbox"
-                  :checked="listChecked[keyList].value"
-                  @click="dfg(list, $event)"
-                />
-                List {{ keyList + 1 }}
-              </label>
-            </div>
-            <template v-if="listVisibility.has(`List${keyList + 1}`)">
-              <ul
-                class="list-params__item"
-                v-for="(item, keyItem) of list"
-                :key="`${keyItem + 1}item${keyList}list`"
-              >
-                <li class="li-item">
-                  <label class="lab-item">
-                    <input
-                      class="item-check"
-                      type="checkbox"
-                      v-model="item.used.value"
-                    />
-                    Item {{ keyItem + 1 }}
-                  </label>
-                  <div class="parameters">
-                    <input
-                      class="count-elements"
-                      type="number"
-                      min="1"
-                      max="99"
-                      v-model="item.quantity.value"
-                    />
-                    <input
-                      type="color"
-                      class="color-input"
-                      v-model="item.color.value"
-                    />
-                  </div>
-                </li>
-              </ul>
-            </template>
-          </li>
-        </ul>
+          :itemsSettings="list"
+          :listNumber="keyList + 1"
+          @changeItemParameter="changeItemParameter"
+          @changeItemsUsed="changeItemsUsed"
+        />
       </div>
       <div class="page-block">
         <div
@@ -124,25 +114,53 @@ const dfg = (list, event) => {
           v-for="(list, keyList) of listSettings"
           :key="`listContent${keyList}`"
         >
-          <template
-            v-for="(item, keyItem) of list"
-            :key="`itemContent${keyItem}`"
-          >
-            <div
-              class="item-content"
-              v-if="item.used.value"
-              @click="deleteSquare(keyList, keyItem, $event)"
+          <header class="list-content__header">
+            <h3 class="list-content__name">List {{ keyList + 1 }}</h3>
+            <button class="list-content__sort" @click="changeRandom(keyList)">
+              {{ isRandom[keyList].value ? 'Сортировать' : 'Перемешать' }}
+            </button>
+          </header>
+          <template v-if="!isRandom[keyList].value">
+            <template
+              v-for="(item, keyItem) of list"
+              :key="`itemContent${keyItem}`"
             >
               <div
-                class="square"
-                :style="{
-                  'background-color': item.color.value
-                }"
-                v-for="n in item.quantity.value"
-                :key="`${keyList}-${keyItem}-${n}square`"
-              ></div>
-            </div>
+                class="item-content"
+                v-if="item.used.value"
+                @click="deleteSquare(keyList, keyItem, $event)"
+              >
+                <div
+                  class="square"
+                  :style="{
+                    'background-color': item.color.value
+                  }"
+                  v-for="n in item.quantity.value"
+                  :key="`${keyList}-${keyItem}-${n}square`"
+                ></div>
+              </div>
+            </template>
           </template>
+          <div class="item-content-random" v-else>
+            <div
+              class="square"
+              v-for="(color, keyColor) in randomContent[keyList].value"
+              :key="`${keyList}-${keyColor}square-color`"
+              :style="{
+                'background-color': color
+              }"
+              @click="
+                deleteSquare(
+                  keyList,
+                  listSettings[keyList].findIndex(
+                    (item) =>
+                      item.color.value === color && item.quantity.value > 0
+                  ),
+                  $event
+                )
+              "
+            ></div>
+          </div>
         </div>
       </div>
     </main>
@@ -175,73 +193,10 @@ const dfg = (list, event) => {
   border: 1px solid black;
 }
 
-.list-params {
-  list-style-type: none;
-}
-
-.list-params__item {
-  list-style-type: none;
-  margin-left: 48px;
-}
-
 label {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.list-block {
-  display: flex;
-  gap: 8px;
-}
-
-.arrow {
-  margin-top: 8px;
-  width: 12px;
-  height: 12px;
-  border: solid black;
-  border-width: 0 0.1em 0.1em 0;
-  transform: rotate(-45deg);
-}
-
-.arrow_down {
-  transform: rotate(45deg);
-}
-
-.li-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 4px;
-  max-width: 500px;
-}
-
-.parameters {
-  display: flex;
-  align-items: center;
-}
-
-.color-input {
-  width: 24px;
-  border: none;
-}
-
-.count-elements::-webkit-outer-spin-button,
-.count-elements::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.count-elements {
-  width: 32px;
-  -moz-appearance: textfield;
-  font: inherit;
-  letter-spacing: inherit;
-  color: inherit;
-  border: none;
-  margin-right: 4px;
-  background-color: inherit;
-  text-align: center;
 }
 
 .list-content {
@@ -251,7 +206,8 @@ label {
   padding: 8px;
 }
 
-.item-content {
+.item-content,
+.item-content-random {
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
@@ -261,20 +217,28 @@ label {
 .square {
   height: 16px;
   width: 16px;
-  background-color: red;
 }
 
-input[type='checkbox'].list-check:checked {
-  background: rgb(66, 63, 63);
+.list-content__header {
+  display: flex;
+  justify-content: space-between;
 }
 
-input[type='checkbox'].list-check_some:checked {
-  background: radial-gradient(circle at center, black 40%, transparent 41%);
+.list-content__name {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
 }
 
-input[type='checkbox'].item-check:checked {
-  background: url('/src/assets/images/check.svg');
-  background-position: center;
-  background-size: calc(var(--base) * 0.24);
+.list-content__sort {
+  font: inherit;
+  letter-spacing: inherit;
+  color: white;
+  font-size: 14px;
+  background-color: #18a0fb;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  width: 110px;
 }
 </style>
