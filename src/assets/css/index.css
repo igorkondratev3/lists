@@ -35,14 +35,9 @@ input[type='checkbox'] {
   background: rgb(232, 238, 233);
   transition: background 0.3s linear, border 0.3s linear;
 }
-input[type='checkbox']:checked {
-  background: rgb(66, 63, 63);
-}
+
 
 input[type='checkbox']:focus-visible {
   outline: calc(var(--base) * 0.02) solid rgb(66, 63, 63);
 }
 
-input[type='checkbox']:checked:focus-visible {
-  outline: calc(var(--base) * 0.02) solid white;
-}
