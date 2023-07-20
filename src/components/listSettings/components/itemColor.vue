@@ -9,7 +9,7 @@ defineEmits(['changeColor']);
 <template>
   <input
     type="color"
-    class="color-input"
+    class="item-color"
     :value="color"
     @input="
       $emit('changeColor', itemNumber - 1, 'color', $event.currentTarget.value)
@@ -18,8 +18,8 @@ defineEmits(['changeColor']);
 </template>
 
 <style>
-.color-input {
-  width: 24px;
+.item-color {
+  width: calc(var(--base) * 0.24);
   border: none;
 }
 </style>

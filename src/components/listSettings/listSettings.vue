@@ -1,15 +1,17 @@
 <script setup>
-import UsedInput from './components/usedInput.vue';
-import QuantityInput from './components/quantityInput.vue';
-import ColorInput from './components/colorInput.vue';
-import ItemsVisibility from './components/itemsVisibility.vue';
+import ItemVisibility from './components/itemVisibility.vue';
+import ItemQuantity from './components/itemQuantity.vue';
+import ItemColor from './components/itemColor.vue';
+import CommonVisibilityOfItems from './components/commonVisibilityOfItems.vue';
 import { useListSettingsVisibility } from './composables.js';
 
 const props = defineProps({
   itemSettings: Array,
-  listNumber: Number
+  listNumber: Number,
+  minNumberOfSquares: Number,
+  maxNumberOfSquares: Number
 });
-const emits = defineEmits(['changeItemParameter', 'changeItemsUsed']);
+const emits = defineEmits(['changeItemParameter', 'changeItemVisibility']);
 const changeItemParameter = (itemKey, itemParameter, value) =>
   emits(
     'changeItemParameter',
@@ -33,11 +35,11 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
         }"
         @click="changeListSettingsVisibility"
       ></button>
-      <ItemsVisibility
+      <CommonVisibilityOfItems
         :listNumber="listNumber"
-        :itemsUsed="itemSettings.map((item) => item.used.value)"
-        @changeItemsUsed="
-          (value) => $emit('changeItemsUsed', listNumber - 1, value)
+        :itemVisibility="itemSettings.map((item) => item.visibility.value)"
+        @changeItemVisibility="
+          (value) => $emit('changeItemVisibility', listNumber - 1, value)
         "
       />
     </div>
@@ -48,18 +50,20 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
       :key="`${itemKey + 1}item${props.listNumber}list`"
     >
       <li class="list-settings__item item-settings">
-        <UsedInput
-          :used="item.used.value"
+        <ItemVisibility
+          :visibility="item.visibility.value"
           :itemNumber="itemKey + 1"
-          @changeUsed="changeItemParameter"
+          @changeVisibility="changeItemParameter"
         />
         <div class="item-settings__parameters">
-          <QuantityInput
+          <ItemQuantity
             :quantity="item.quantity.value"
             :itemNumber="itemKey + 1"
+            :minNumberOfSquares="minNumberOfSquares"
+            :maxNumberOfSquares="maxNumberOfSquares"
             @changeQuantity="changeItemParameter"
           />
-          <ColorInput
+          <ItemColor
             :color="item.color.value"
             :itemNumber="itemKey + 1"
             @changeColor="changeItemParameter"
@@ -74,25 +78,25 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
 .list-settings__summary {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(var(--base) * 0.08);
 }
 
 .list-settings__visibility-toggle {
-  width: 12px;
-  height: 12px;
+  width: calc(var(--base) * 0.12);
+  height: calc(var(--base) * 0.12);
   border: solid black;
-  border-width: 0 1px 1px 0;
+  border-width: 0 calc(var(--base) * 0.01) calc(var(--base) * 0.01) 0;
   cursor: pointer;
   transform: rotate(-45deg);
 }
 
 .list-settings__visibility-toggle_close {
   transform: rotate(45deg);
-  margin-bottom: 8px;
+  margin-bottom: calc(var(--base) * 0.08);
 }
 
 .list-settings__items-list {
-  margin-left: 48px;
+  margin-left: calc(var(--base) * 0.48);
   list-style-type: none;
 }
 
@@ -100,20 +104,20 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 500px;
-  margin-top: 4px;
+  max-width: calc(var(--base) * 5);
+  margin-top: calc(var(--base) * 0.04);
 }
 
 .item-settings__parameters {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
-
 
 label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(var(--base) * 0.08);
 }
 /*перенести*/
 </style>

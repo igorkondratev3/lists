@@ -31,7 +31,7 @@ for (let i = 0; i < numberOfLists; i++) {
     j++
   ) {
     listSettings[i][j] = {
-      used: ref(i === 0 && j < 3 ? true : false),
+      visibility: ref(i === 0 && j < 3 ? true : false),
       quantity: ref(
         getRandomIntInclusive(minNumberOfSquares, maxNumberOfSquares)
       ),
@@ -46,9 +46,9 @@ const changeItemParameter = (listNumber, itemNumber, parameter, value) => {
   listSettings[listNumber][itemNumber][parameter].value = value;
 };
 
-const changeItemsUsed = (listNumber, value) => {
+const changeItemVisibility = (listNumber, value) => {
   for (const itemSettings of listSettings[listNumber]) {
-    itemSettings.used.value = value;
+    itemSettings.visibility.value = value;
   }
 };
 const decreaseQuantity = (listKey, itemKey) => {
@@ -66,8 +66,10 @@ const decreaseQuantity = (listKey, itemKey) => {
             :key="keyList + 'listParams'"
             :itemSettings="list"
             :listNumber="keyList + 1"
+            :minNumberOfSquares="minNumberOfSquares"
+            :maxNumberOfSquares="maxNumberOfSquares"
             @changeItemParameter="changeItemParameter"
-            @changeItemsUsed="changeItemsUsed"
+            @changeItemVisibility="changeItemVisibility"
           />
         </ul>
       </div>
@@ -94,7 +96,7 @@ const decreaseQuantity = (listKey, itemKey) => {
   width: 100%;
   min-height: 100vh;
   padding: calc(var(--base) * 0.16);
-  font: 400 24px 'Advent Pro';
+  font: 400 calc(var(--base) * 0.24) 'Advent Pro';
   letter-spacing: 0.065em;
   color: black;
 }
@@ -102,14 +104,16 @@ const decreaseQuantity = (listKey, itemKey) => {
 .lists-page__main {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: calc(var(--base) * 0.16);
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .page-block {
-  padding: 16px;
-  min-height: 90vh;
+  overflow-y: auto;
+  padding: calc(var(--base) * 0.16);
+  height: 90vh;
   width: 40%;
-  border: 1px solid black;
+  border: calc(var(--base) * 0.01) solid black;
 }
 </style>
