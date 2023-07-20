@@ -33,11 +33,9 @@ input[type='checkbox'] {
   border: calc(var(--base) * 0.01) solid rgb(66, 63, 63);
   border-radius: calc(var(--base) * 0.04);
   background: rgb(232, 238, 233);
-  transition: background 0.3s linear, border 0.3s linear;
+  transition: background 0.3s linear;
 }
-
 
 input[type='checkbox']:focus-visible {
   outline: calc(var(--base) * 0.02) solid rgb(66, 63, 63);
 }
-

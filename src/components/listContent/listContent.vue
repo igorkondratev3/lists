@@ -22,7 +22,7 @@ const {
       <button
         class="list-content__mode-toggle"
         @click="changeSortedContentVisibility"
-        v-if="itemSettings.some((item) => item.visibility.value)"
+        v-show="itemSettings.some((item) => item.visibility.value)"
       >
         {{ sortedContentVisibility ? 'Перемешать' : 'Сортировать' }}
       </button>
@@ -66,7 +66,7 @@ const {
 }
 
 .list-content__mode-toggle {
-  width: calc(var(--base) * 1.1);
+  min-width: calc(var(--base) * 1.2);
   padding: calc(var(--base) * 0.08);
   border: none;
   border-radius: calc(var(--base) * 0.08);
@@ -76,6 +76,11 @@ const {
   color: white;
   cursor: pointer;
   background-color: #18a0fb;
+}
+
+.list-content__mode-toggle:focus-visible {
+  outline: calc(var(--base) * 0.02) solid black;
+  outline-offset: calc(var(--base) * 0.02);
 }
 
 .item-content {

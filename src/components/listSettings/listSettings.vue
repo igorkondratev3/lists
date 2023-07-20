@@ -77,19 +77,39 @@ const {
 </template>
 
 <style>
+.list-settings {
+  margin-bottom: calc(var(--base) * 0.08);
+}
+
 .list-settings__summary {
   display: flex;
   align-items: center;
-  gap: calc(var(--base) * 0.08);
+  gap: calc(var(--base) * 0.16);
 }
 
 .list-settings__visibility-toggle {
   width: calc(var(--base) * 0.12);
   height: calc(var(--base) * 0.12);
+  outline: none;
   border: solid black;
   border-width: 0 calc(var(--base) * 0.01) calc(var(--base) * 0.01) 0;
   cursor: pointer;
   transform: rotate(-45deg);
+}
+
+.list-settings__visibility-toggle:focus-visible::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--base) * 0.01);
+  left: calc(var(--base) * 0.01);
+  width: calc(var(--base) * 0.04);
+  height: calc(var(--base) * 0.04);
+  background-color: black;
+  border-radius: 50%;
+}
+
+.list-settings__visibility-toggle:hover {
+  background-color: transparent;
 }
 
 .list-settings__visibility-toggle_close {
@@ -113,6 +133,6 @@ const {
 .item-settings__parameters {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(var(--base) * 0.08);
 }
 </style>

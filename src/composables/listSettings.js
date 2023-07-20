@@ -34,16 +34,16 @@ const numberOfLists = 5;
 const minNumberOfItems = 4;
 const maxNumberOfItems = 10;
 const colorCollection = [
-  '#ca5d5d',
-  '#f0ade2',
-  '#7320ee',
-  '#a8c2ff',
-  '#5ec9f7',
+  '#f07676',
+  '#f370d7',
+  '#c29aff',
+  '#b1c8ff',
+  '#44c3fa',
   '#04fba9',
-  '#47eaf5',
+  '#cfffdd',
   '#c7fb93',
   '#fde90d',
-  '#ffcf99'
+  '#fa931d'
 ];
 
 const getListSettings = (squaresRange) => {

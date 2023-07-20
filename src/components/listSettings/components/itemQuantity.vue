@@ -50,4 +50,8 @@ defineEmits(['changeQuantity']);
   -webkit-appearance: none;
   margin: 0;
 }
+
+.item-quantity:focus {
+  outline: calc(var(--base) * 0.02) solid black;
+}
 </style>

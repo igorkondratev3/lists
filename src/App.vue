@@ -1,5 +1,5 @@
 <script setup>
-import ListsPage from './pages/ListsPage.vue'
+import ListsPage from './pages/ListsPage.vue';
 </script>
 
 <template>

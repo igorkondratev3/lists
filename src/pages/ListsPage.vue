@@ -15,13 +15,13 @@ const {
 <template>
   <div class="lists-page">
     <main class="lists-page__main">
-      <div class="lists-page__block">
+      <div class="lists-page__panel">
         <ul class="list-of-list-settings">
           <ListSettings
-            v-for="(list, keyList) of listSettings"
-            :key="keyList + 'listParams'"
+            v-for="(list, listKey) of listSettings"
+            :key="`${listKey}listSetting`"
             :itemSettings="list"
-            :listNumber="keyList + 1"
+            :listNumber="listKey + 1"
             :minNumberOfSquares="squaresRange.min"
             :maxNumberOfSquares="squaresRange.max"
             @changeItemParameter="changeItemParameter"
@@ -29,10 +29,10 @@ const {
           />
         </ul>
       </div>
-      <div class="lists-page__block">
+      <div class="lists-page__panel">
         <ListContent
           v-for="(list, listKey) of listSettings"
-          :key="`listContent${listKey}`"
+          :key="`${listKey}listContent`"
           :listNumber="listKey + 1"
           :itemSettings="list"
           @decreaseQuantity="decreaseQuantity"
@@ -62,7 +62,7 @@ const {
   align-items: flex-start;
 }
 
-.lists-page__block {
+.lists-page__panel {
   height: 90vh;
   width: 40%;
   padding: calc(var(--base) * 0.16);

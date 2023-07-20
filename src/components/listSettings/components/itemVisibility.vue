@@ -24,8 +24,12 @@ defineEmits(['changeVisibility']);
 </template>
 
 <style>
+input[type='checkbox'].item-visibility__value {
+  transition: none;
+}
+
 input[type='checkbox'].item-visibility__value:checked {
-  background: url('/src/assets/images/check.svg');
+  background-image: url('/src/assets/images/check.svg');
   background-position: center;
   background-size: calc(var(--base) * 0.24);
 }
