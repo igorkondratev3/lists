@@ -40,7 +40,7 @@ const colorCollection = [
   '#b1c8ff',
   '#44c3fa',
   '#04fba9',
-  '#cfffdd',
+  '#5cb777',
   '#c7fb93',
   '#fde90d',
   '#fa931d'

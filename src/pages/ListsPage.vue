@@ -73,4 +73,14 @@ const {
 .list-of-list-settings {
   list-style-type: none;
 }
+
+@media (max-width: 700px) {
+  .lists-page__main {
+    flex-direction: column;
+  }
+
+  .lists-page__panel {
+    width: 100%;
+  }
+}
 </style>
