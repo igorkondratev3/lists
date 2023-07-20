@@ -1,10 +1,10 @@
-export const deleteSquare = (listKey, event, emits, checkAndDeleteSquare) => {
+export const deleteSquare = (listKey, event, emits, deleteOneSquare) => {
   if (event.target.className !== event.currentTarget.className) {
-    checkAndDeleteSquare?.(event.target.dataset.colorkey);
+    deleteOneSquare?.(event.target.dataset.square_key);
     emits(
       'decreaseQuantity',
       listKey,
-      event.currentTarget.dataset.key || event.target.dataset.key
+      event.currentTarget.dataset.item_key || event.target.dataset.item_key
     );
   }
 };

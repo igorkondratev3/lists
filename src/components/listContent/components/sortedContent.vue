@@ -19,7 +19,7 @@ defineEmits(['decreaseQuantity']);
     <div
       class="item-content"
       v-if="item.visibility.value"
-      :data-key="item.key"
+      :data-item_key="item.key"
       @click="deleteSquare(listNumber - 1, $event, $emit)"
     >
       <div
