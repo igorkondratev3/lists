@@ -1,79 +1,35 @@
 <script setup>
-import { ref } from 'vue';
 import ListSettings from '@/components/listSettings/listSettings.vue';
 import ListContent from '@/components/listContent/listContent.vue';
-import { getRandomIntInclusive } from '@/helpers/common.js';
+import { useListSettings } from '@/composables/listSettings.js';
 
-const colorCollection = [
-  '#ca5d5d',
-  '#f0ade2',
-  '#7320ee',
-  '#a8c2ff',
-  '#5ec9f7',
-  '#04fba9',
-  '#47eaf5',
-  '#c7fb93',
-  '#fde90d',
-  '#ffcf99'
-];
-
-const numberOfLists = 5;
-const minNumberOfItems = 4;
-const maxNumberOfItems = 10;
-const minNumberOfSquares = 0;
-const maxNumberOfSquares = 99;
-const listSettings = [];
-for (let i = 0; i < numberOfLists; i++) {
-  listSettings[i] = [];
-  for (
-    let j = 0;
-    j < getRandomIntInclusive(minNumberOfItems, maxNumberOfItems);
-    j++
-  ) {
-    listSettings[i][j] = {
-      visibility: ref(i === 0 && j < 3 ? true : false),
-      quantity: ref(
-        getRandomIntInclusive(minNumberOfSquares, maxNumberOfSquares)
-      ),
-      color: ref(
-        colorCollection[getRandomIntInclusive(0, colorCollection.length - 1)]
-      )
-    };
-  }
-}
-
-const changeItemParameter = (listNumber, itemNumber, parameter, value) => {
-  listSettings[listNumber][itemNumber][parameter].value = value;
-};
-
-const changeItemVisibility = (listNumber, value) => {
-  for (const itemSettings of listSettings[listNumber]) {
-    itemSettings.visibility.value = value;
-  }
-};
-const decreaseQuantity = (listKey, itemKey) => {
-  listSettings[listKey][itemKey].quantity.value--;
-};
+const {
+  squaresRange,
+  listSettings,
+  changeItemParameter,
+  changeItemVisibility,
+  decreaseQuantity
+} = useListSettings();
 </script>
 
 <template>
   <div class="lists-page">
     <main class="lists-page__main">
-      <div class="page-block">
-        <ul class="list-settings-wrapper">
+      <div class="lists-page__block">
+        <ul class="list-of-list-settings">
           <ListSettings
             v-for="(list, keyList) of listSettings"
             :key="keyList + 'listParams'"
             :itemSettings="list"
             :listNumber="keyList + 1"
-            :minNumberOfSquares="minNumberOfSquares"
-            :maxNumberOfSquares="maxNumberOfSquares"
+            :minNumberOfSquares="squaresRange.min"
+            :maxNumberOfSquares="squaresRange.max"
             @changeItemParameter="changeItemParameter"
             @changeItemVisibility="changeItemVisibility"
           />
         </ul>
       </div>
-      <div class="page-block">
+      <div class="lists-page__block">
         <ListContent
           v-for="(list, listKey) of listSettings"
           :key="`listContent${listKey}`"
@@ -87,9 +43,6 @@ const decreaseQuantity = (listKey, itemKey) => {
 </template>
 
 <style>
-.list-settings-wrapper {
-  list-style-type: none;
-}
 .lists-page {
   display: flex;
   flex-direction: column;
@@ -109,11 +62,15 @@ const decreaseQuantity = (listKey, itemKey) => {
   align-items: flex-start;
 }
 
-.page-block {
-  overflow-y: auto;
-  padding: calc(var(--base) * 0.16);
+.lists-page__block {
   height: 90vh;
   width: 40%;
+  padding: calc(var(--base) * 0.16);
   border: calc(var(--base) * 0.01) solid black;
+  overflow-y: auto;
+}
+
+.list-of-list-settings {
+  list-style-type: none;
 }
 </style>

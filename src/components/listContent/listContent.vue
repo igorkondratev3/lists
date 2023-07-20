@@ -20,7 +20,7 @@ const {
     <header class="list-content__header">
       <h5 class="list-content__name">List {{ listNumber }}</h5>
       <button
-        class="list-content__mode toggle"
+        class="list-content__mode-toggle"
         @click="changeSortedContentVisibility"
         v-if="itemSettings.some((item) => item.visibility.value)"
       >
@@ -65,7 +65,7 @@ const {
   color: inherit;
 }
 
-.list-content__mode toggle {
+.list-content__mode-toggle {
   width: calc(var(--base) * 1.1);
   padding: calc(var(--base) * 0.08);
   border: none;
