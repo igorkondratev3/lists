@@ -9,21 +9,25 @@ const props = defineProps({
 });
 defineEmits(['decreaseQuantity']);
 
-const mixedArrayOfColors = useMixedContent(toRef(props, 'itemSettings'));
+const { mixedArrayOfColors, checkAndDeleteSquare } = useMixedContent(
+  toRef(props, 'itemSettings')
+);
 </script>
 
 <template>
   <div
     class="item-content"
-    @click="deleteSquare(itemSettings, listNumber - 1, $event, $emit)"
+    @click="deleteSquare(listNumber - 1, $event, $emit, checkAndDeleteSquare)"
   >
     <div
       class="item-content__square"
-      v-for="(color, colorKey) in mixedArrayOfColors"
+      v-for="(colorArr, colorKey) in mixedArrayOfColors"
       :key="`${listNumber}listMixed${colorKey + 1}square-color`"
-      :data-color="color"
+      :data-color="colorArr[0]"
+      :data-key="colorArr[1]"
+      :data-colorkey="colorKey"
       :style="{
-        'background-color': color
+        'background-color': colorArr[0]
       }"
     ></div>
   </div>

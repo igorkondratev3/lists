@@ -62,7 +62,8 @@ const getListSettings = (squaresRange) => {
         ),
         color: ref(
           colorCollection[getRandomIntInclusive(0, colorCollection.length - 1)]
-        )
+        ),
+        key: j
       };
     }
   }

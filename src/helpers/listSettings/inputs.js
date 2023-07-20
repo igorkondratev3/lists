@@ -15,5 +15,6 @@ export const quantityNormalize = (
     event.currentTarget.value = String(quantity);
     return quantity;
   }
+
   return Number(event.currentTarget.value);
 };

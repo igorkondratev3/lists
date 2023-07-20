@@ -1,11 +1,10 @@
-export const deleteSquare = (itemSettings, listKey, event, emits) => {
+export const deleteSquare = (listKey, event, emits, checkAndDeleteSquare) => {
   if (event.target.className !== event.currentTarget.className) {
-    const itemKey = itemSettings.findIndex(
-      (item) =>
-        item.color.value === event.target.dataset.color &&
-        item.quantity.value > 0 &&
-        item.visibility.value
+    checkAndDeleteSquare?.(event.target.dataset.colorkey);
+    emits(
+      'decreaseQuantity',
+      listKey,
+      event.currentTarget.dataset.key || event.target.dataset.key
     );
-    emits('decreaseQuantity', listKey, itemKey);
   }
 };

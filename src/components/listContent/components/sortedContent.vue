@@ -19,12 +19,12 @@ defineEmits(['decreaseQuantity']);
     <div
       class="item-content"
       v-if="item.visibility.value"
-      @click="deleteSquare(itemSettings, listNumber - 1, $event, $emit)"
+      :data-key="item.key"
+      @click="deleteSquare(listNumber - 1, $event, $emit)"
     >
       <div
         v-for="n in item.quantity.value"
         :key="`${listNumber}listSotred${n}square-color`"
-        :data-color="item.color.value"
         class="item-content__square"
         :style="{
           'background-color': item.color.value
