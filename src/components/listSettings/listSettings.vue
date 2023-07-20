@@ -3,7 +3,7 @@ import ItemVisibility from './components/itemVisibility.vue';
 import ItemQuantity from './components/itemQuantity.vue';
 import ItemColor from './components/itemColor.vue';
 import CommonVisibilityOfItems from './components/commonVisibilityOfItems.vue';
-import { useListSettingsVisibility } from './composables.js';
+import { useElementVisibility } from '@/composables/elementVisibility.js';
 
 const props = defineProps({
   itemSettings: Array,
@@ -12,6 +12,7 @@ const props = defineProps({
   maxNumberOfSquares: Number
 });
 const emits = defineEmits(['changeItemParameter', 'changeItemVisibility']);
+
 const changeItemParameter = (itemKey, itemParameter, value) =>
   emits(
     'changeItemParameter',
@@ -21,8 +22,10 @@ const changeItemParameter = (itemKey, itemParameter, value) =>
     value
   );
 
-const { listSettingsVisibility, changeListSettingsVisibility } =
-  useListSettingsVisibility(props.listNumber);
+const {
+  visibility: listSettingsVisibility,
+  changeVisibility: changeListSettingsVisibility
+} = useElementVisibility(props.listNumber === 1);
 </script>
 
 <template>
@@ -43,13 +46,12 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
         "
       />
     </div>
-    <ul
-      class="list-settings__items-list"
-      v-show="listSettingsVisibility"
-      v-for="(item, itemKey) of props.itemSettings"
-      :key="`${itemKey + 1}item${props.listNumber}list`"
-    >
-      <li class="list-settings__item item-settings">
+    <ul class="list-settings__items-list" v-show="listSettingsVisibility">
+      <li
+        class="list-settings__item item-settings"
+        v-for="(item, itemKey) of props.itemSettings"
+        :key="`${itemKey + 1}item${props.listNumber}list`"
+      >
         <ItemVisibility
           :visibility="item.visibility.value"
           :itemNumber="itemKey + 1"
@@ -113,11 +115,4 @@ const { listSettingsVisibility, changeListSettingsVisibility } =
   align-items: center;
   gap: 8px;
 }
-
-label {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--base) * 0.08);
-}
-/*перенести*/
 </style>

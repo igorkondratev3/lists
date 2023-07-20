@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
 import SortedContent from './components/sortedContent.vue';
 import MixedContent from './components/mixedContent.vue';
+import { useElementVisibility } from '@/composables/elementVisibility.js';
 
 defineProps({
   listNumber: Number,
@@ -9,26 +9,26 @@ defineProps({
 });
 defineEmits(['decreaseQuantity']);
 
-const isRandom = ref(false);
-const changeRandom = () => {
-  isRandom.value = !isRandom.value;
-};
+const {
+  visibility: sortedContentVisibility,
+  changeVisibility: changeSortedContentVisibility
+} = useElementVisibility(true);
 </script>
 
 <template>
-  <div class="list-content">
+  <article class="list-content">
     <header class="list-content__header">
       <h5 class="list-content__name">List {{ listNumber }}</h5>
       <button
-        class="list-content__sort"
-        @click="changeRandom"
+        class="list-content__mode toggle"
+        @click="changeSortedContentVisibility"
         v-if="itemSettings.some((item) => item.visibility.value)"
       >
-        {{ isRandom ? 'Сортировать' : 'Перемешать' }}
+        {{ sortedContentVisibility ? 'Перемешать' : 'Сортировать' }}
       </button>
     </header>
     <SortedContent
-      v-if="!isRandom"
+      v-if="sortedContentVisibility"
       :itemSettings="itemSettings"
       :listNumber="listNumber"
       @decreaseQuantity="
@@ -43,15 +43,15 @@ const changeRandom = () => {
         (listKey, itemKey) => $emit('decreaseQuantity', listKey, itemKey)
       "
     />
-  </div>
+  </article>
 </template>
 
 <style>
 .list-content {
   width: 100%;
-  border: calc(var(--base) * 0.01) solid black;
   margin-bottom: calc(var(--base) * 0.16);
   padding: calc(var(--base) * 0.08);
+  border: calc(var(--base) * 0.01) solid black;
 }
 
 .list-content__header {
@@ -65,16 +65,17 @@ const changeRandom = () => {
   color: inherit;
 }
 
-.list-content__sort {
-  font: inherit;
-  letter-spacing: inherit;
-  color: white;
-  font-size: calc(var(--base) * 0.14);
-  background-color: #18a0fb;
+.list-content__mode toggle {
+  width: calc(var(--base) * 1.1);
+  padding: calc(var(--base) * 0.08);
   border: none;
   border-radius: calc(var(--base) * 0.08);
-  padding: calc(var(--base) * 0.08);
-  width: calc(var(--base) * 1.1);
+  font: inherit;
+  font-size: calc(var(--base) * 0.16);
+  letter-spacing: inherit;
+  color: white;
+  cursor: pointer;
+  background-color: #18a0fb;
 }
 
 .item-content {
@@ -84,7 +85,7 @@ const changeRandom = () => {
   margin-top: calc(var(--base) * 0.08);
 }
 
-.square {
+.item-content__square {
   height: calc(var(--base) * 0.16);
   width: calc(var(--base) * 0.16);
 }

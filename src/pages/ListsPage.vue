@@ -96,7 +96,7 @@ const decreaseQuantity = (listKey, itemKey) => {
   width: 100%;
   min-height: 100vh;
   padding: calc(var(--base) * 0.16);
-  font: 400 calc(var(--base) * 0.24) 'Advent Pro';
+  font: 400 calc(var(--base) * 0.24) 'Advent ProLA', 'Advent ProCY';
   letter-spacing: 0.065em;
   color: black;
 }

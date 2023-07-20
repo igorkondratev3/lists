@@ -30,6 +30,12 @@ input[type='checkbox'].item-visibility__value:checked {
   background-size: calc(var(--base) * 0.24);
 }
 
+.item-visibility {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--base) * 0.08);
+}
+
 .item-visibility__header {
   font: inherit;
   letter-spacing: inherit;

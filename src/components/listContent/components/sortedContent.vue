@@ -1,16 +1,12 @@
 <script setup>
+import { deleteSquare } from '@/helpers/listContent/content.js';
+
 defineProps({
   itemSettings: Array,
   listNumber: Number
 });
 
-const emits = defineEmits(['decreaseQuantity']);
-
-const deleteSquare = (listKey, itemKey, event) => {
-  if (event.target.className === 'square') {
-    emits('decreaseQuantity', listKey, itemKey);
-  }
-};
+defineEmits(['decreaseQuantity']);
 </script>
 
 <template>
@@ -18,30 +14,21 @@ const deleteSquare = (listKey, itemKey, event) => {
     v-for="(item, itemKey) of itemSettings.toSorted(
       (a, b) => a.quantity.value - b.quantity.value
     )"
-    :key="`itemContent${itemKey}`"
+    :key="`${listNumber}listSorted${itemKey}itemContent`"
   >
     <div
       class="item-content"
       v-if="item.visibility.value"
-      @click="
-        deleteSquare(
-          listNumber - 1,
-          itemSettings.findIndex(
-            (setting) =>
-              item.color.value === setting.color.value &&
-              setting.quantity.value === item.quantity.value
-          ),
-          $event
-        )
-      "
+      @click="deleteSquare(itemSettings, listNumber - 1, $event, $emit)"
     >
       <div
-        class="square"
+        v-for="n in item.quantity.value"
+        :key="`${listNumber}listSotred${n}square-color`"
+        :data-color="item.color.value"
+        class="item-content__square"
         :style="{
           'background-color': item.color.value
         }"
-        v-for="n in item.quantity.value"
-        :key="`${listNumber}-${itemKey + 1}-${n}square`"
       ></div>
     </div>
   </template>

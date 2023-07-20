@@ -1,5 +1,15 @@
 @font-face {
-  font-family: 'Advent Pro';
+  font-family: 'Advent ProCY';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/adventpro/v19/V8mqoQfxVT4Dvddr_yOwrzaFxV7JtdQgFqXdUAQrGp_zgX5sWCpLQyN_T5Aprw0.woff2)
+    format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Advent ProLA';
   font-style: normal;
   font-weight: 400;
   src: url(https://fonts.gstatic.com/s/adventpro/v19/V8mqoQfxVT4Dvddr_yOwrzaFxV7JtdQgFqXdUAQrGp_zgX5sWCpLQyN_S5Ap.woff2)
