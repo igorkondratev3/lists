@@ -1,9 +1,12 @@
 <script setup>
+import { throttle } from '@/helpers/listSettings/inputs.js';
+
 defineProps({
   color: String,
   itemNumber: Number
 });
-defineEmits(['changeColor']);
+const emits = defineEmits(['changeColor']);
+const throttledEmits = throttle(emits, 150);
 </script>
 
 <template>
@@ -12,7 +15,12 @@ defineEmits(['changeColor']);
     class="item-color"
     :value="color"
     @input="
-      $emit('changeColor', itemNumber - 1, 'color', $event.currentTarget.value)
+      throttledEmits(
+        'changeColor',
+        itemNumber - 1,
+        'color',
+        $event.currentTarget.value
+      )
     "
   />
 </template>

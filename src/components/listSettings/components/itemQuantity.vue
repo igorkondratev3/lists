@@ -1,5 +1,6 @@
 <script setup>
 import { quantityNormalize } from '@/helpers/listSettings/inputs.js';
+import { throttle } from '@/helpers/listSettings/inputs.js';
 
 defineProps({
   quantity: Number,
@@ -7,7 +8,8 @@ defineProps({
   minNumberOfSquares: Number,
   maxNumberOfSquares: Number
 });
-defineEmits(['changeQuantity']);
+const emits = defineEmits(['changeQuantity']);
+const throttledEmits = throttle(emits, 150);
 </script>
 
 <template>
@@ -18,7 +20,7 @@ defineEmits(['changeQuantity']);
     :max="String(maxNumberOfSquares)"
     :value="quantity"
     @input="
-      $emit(
+      throttledEmits(
         'changeQuantity',
         itemNumber - 1,
         'quantity',
