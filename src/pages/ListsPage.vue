@@ -19,7 +19,7 @@ const {
         <ul class="list-of-list-settings">
           <ListSettings
             v-for="(list, listKey) of listSettings"
-            :key="`${listKey}listSetting`"
+            :key="`${listKey + 1}listSetting`"
             :itemSettings="list"
             :listNumber="listKey + 1"
             :minNumberOfSquares="squaresRange.min"
@@ -32,7 +32,7 @@ const {
       <div class="lists-page__panel">
         <ListContent
           v-for="(list, listKey) of listSettings"
-          :key="`${listKey}listContent`"
+          :key="`${listKey + 1}listContent`"
           :listNumber="listKey + 1"
           :itemSettings="list"
           @decreaseQuantity="decreaseQuantity"

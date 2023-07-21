@@ -1,20 +1,24 @@
 <script setup>
+import { computed } from 'vue';
 import { deleteSquare } from '@/helpers/listContent/content.js';
 
-defineProps({
+const props = defineProps({
   itemSettings: Array,
   listNumber: Number
 });
-
 defineEmits(['decreaseQuantity']);
+
+const sortedItemSettings = computed(() =>
+  props.itemSettings.toSorted(
+    (itemOne, itemTwo) => itemOne.quantity.value - itemTwo.quantity.value
+  )
+);
 </script>
 
 <template>
   <template
-    v-for="(item, itemKey) of itemSettings.toSorted(
-      (a, b) => a.quantity.value - b.quantity.value
-    )"
-    :key="`${listNumber}listSorted${itemKey}itemContent`"
+    v-for="(item, itemKey) of sortedItemSettings"
+    :key="`${listNumber}listSorted${itemKey + 1}item`"
   >
     <div
       class="item-content"
@@ -23,8 +27,8 @@ defineEmits(['decreaseQuantity']);
       @click="deleteSquare(listNumber - 1, $event, $emit)"
     >
       <div
-        v-for="n in item.quantity.value"
-        :key="`${listNumber}listSotred${n}square-color`"
+        v-for="squareNumber in item.quantity.value"
+        :key="`${listNumber}listSotred${itemKey + 1}item${squareNumber}square`"
         class="item-content__square"
         :style="{
           'background-color': item.color.value

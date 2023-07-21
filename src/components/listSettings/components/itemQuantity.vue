@@ -37,6 +37,7 @@ const throttledEmits = throttle(emits, 150);
 
 <style>
 .item-quantity {
+  -moz-appearance: textfield;
   width: calc(var(--base) * 0.32);
   border: none;
   font: inherit;
@@ -44,7 +45,6 @@ const throttledEmits = throttle(emits, 150);
   color: inherit;
   text-align: center;
   background-color: inherit;
-  -moz-appearance: textfield;
 }
 
 .item-quantity::-webkit-outer-spin-button,

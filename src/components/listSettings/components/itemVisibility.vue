@@ -24,6 +24,12 @@ defineEmits(['changeVisibility']);
 </template>
 
 <style>
+.item-visibility {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--base) * 0.08);
+}
+
 input[type='checkbox'].item-visibility__value {
   transition: none;
 }
@@ -32,12 +38,6 @@ input[type='checkbox'].item-visibility__value:checked {
   background-image: url('/src/assets/images/check.svg');
   background-position: center;
   background-size: calc(var(--base) * 0.24);
-}
-
-.item-visibility {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--base) * 0.08);
 }
 
 .item-visibility__header {

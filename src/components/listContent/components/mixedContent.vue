@@ -21,13 +21,13 @@ const { mixedArrayOfColors, deleteOneSquare } = useMixedContent(
   >
     <div
       class="item-content__square"
-      v-for="(colorArr, squareKey) in mixedArrayOfColors"
-      :key="`${listNumber}listMixed${squareKey + 1}square-color`"
-      :data-color="colorArr[0]"
-      :data-item_key="colorArr[1]"
+      v-for="(squareArr, squareKey) in mixedArrayOfColors"
+      :key="`${listNumber}listMixed${squareKey + 1}square`"
+      :data-color="squareArr[0]"
+      :data-item_key="squareArr[1]"
       :data-square_key="squareKey"
       :style="{
-        'background-color': colorArr[0]
+        'background-color': squareArr[0]
       }"
     ></div>
   </div>

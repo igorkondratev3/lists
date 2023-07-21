@@ -1,4 +1,4 @@
-import { computed, watch, unref, ref } from 'vue';
+import { ref, unref, computed, watch } from 'vue';
 import { getRandomIntInclusive } from '@/helpers/common.js';
 
 export const useMixedContent = (itemSettings) => {
@@ -34,14 +34,14 @@ export const useMixedContent = (itemSettings) => {
       itemSettingsClone
     );
 
-    if (changedParameter.param === 'color')
+    if (changedParameter.name === 'color')
       changeColor(
         mixedArrayOfColors.value,
         changedParameter,
         itemSettingsClone
       );
 
-    if (changedParameter.param === 'visibility')
+    if (changedParameter.name === 'visibility')
       changeVisibility(
         mixedArrayOfColors,
         currentMixedArrayOfColors,
@@ -49,7 +49,7 @@ export const useMixedContent = (itemSettings) => {
         itemSettingsClone
       );
 
-    if (changedParameter.param === 'quantity') {
+    if (changedParameter.name === 'quantity') {
       changeQuantity(
         mixedArrayOfColors,
         currentMixedArrayOfColors,
@@ -94,7 +94,7 @@ const getChangedParameter = (itemSettings, itemSettingsClone) => {
   loop1: for (let i = 0; i < itemSettingsClone.length; i++) {
     for (const key in itemSettingsClone[i]) {
       if (itemSettingsClone[i][key] !== unref(itemSettings[i][key])) {
-        changedParameter.param = key;
+        changedParameter.name = key;
         changedParameter.old = itemSettingsClone[i][key];
         changedParameter.new = itemSettings[i][key].value;
         changedParameter.keyItem = i;
@@ -145,7 +145,7 @@ const changeQuantity = (
   customSquareDelete
 ) => {
   if (customSquareDelete.value) customSquareDelete.value = false;
-  else
+  else if (itemSettingsClone[changedParameter.keyItem].visibility)
     mixedArrayOfColors.value = structuredClone(currentMixedArrayOfColors.value);
 
   itemSettingsClone[changedParameter.keyItem].quantity = changedParameter.new;

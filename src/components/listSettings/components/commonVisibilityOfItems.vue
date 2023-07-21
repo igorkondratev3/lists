@@ -29,18 +29,18 @@ const { someItemsShown, someItemsHidden, changeCommonVisibility } =
 </template>
 
 <style>
+.common-visibility {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--base) * 0.08);
+}
+
 input[type='checkbox'].common-visibility__value:checked {
   background: rgb(66, 63, 63);
 }
 
 input[type='checkbox'].common-visibility__value_both:checked {
   background: radial-gradient(circle at center, black 40%, transparent 41%);
-}
-
-.common-visibility {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--base) * 0.08);
 }
 
 .common-visibility__header {

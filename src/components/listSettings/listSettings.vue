@@ -50,7 +50,7 @@ const {
       <li
         class="list-settings__item item-settings"
         v-for="(item, itemKey) of props.itemSettings"
-        :key="`${itemKey + 1}item${props.listNumber}list`"
+        :key="`${props.listNumber}list${itemKey + 1}itemSetting`"
       >
         <ItemVisibility
           :visibility="item.visibility.value"
