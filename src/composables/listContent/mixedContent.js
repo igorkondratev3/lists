@@ -33,7 +33,6 @@ export const useMixedContent = (itemSettings) => {
       itemSettings.value,
       itemSettingsClone
     );
-
     if (changedParameter.name === 'color')
       changeColor(
         mixedArrayOfColors.value,
@@ -46,7 +45,8 @@ export const useMixedContent = (itemSettings) => {
         mixedArrayOfColors,
         currentMixedArrayOfColors,
         changedParameter,
-        itemSettingsClone
+        itemSettingsClone,
+        itemSettings.value
       );
 
     if (changedParameter.name === 'quantity') {
@@ -122,8 +122,13 @@ const changeVisibility = (
   mixedArrayOfColors,
   currentMixedArrayOfColors,
   changedParameter,
-  itemSettingsClone
+  itemSettingsClone,
+  itemSettings
 ) => {
+  if (itemSettings.every((item) => !item.visibility.value)) {
+    mixedArrayOfColors.value = structuredClone(currentMixedArrayOfColors.value);
+    for (const itemSetting of itemSettingsClone) itemSetting.visibility = false;
+  }
   if (changedParameter.new) {
     mixedArrayOfColors.value = structuredClone(currentMixedArrayOfColors.value);
   } else {

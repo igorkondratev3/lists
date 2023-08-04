@@ -6,6 +6,7 @@ export const useCommonVisibility = (itemVisibility, emits) => {
 
   const changeCommonVisibility = (event) => {
     if (!someItemsHidden.value) {
+      console.log(1)
       emits('changeItemVisibility', false);
       return;
     }

@@ -13,6 +13,7 @@ export const useListSettings = () => {
   };
 
   const changeItemVisibility = (listNumber, value) => {
+    console.log(2)
     for (const itemSettings of listSettings[listNumber]) {
       itemSettings.visibility.value = value;
     }
